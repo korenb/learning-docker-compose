@@ -4,5 +4,5 @@ services:
   test-app:
     image: test-app
     build:
-      context: .
+      context: ./test-app
       dockerfile: test-app/Dockerfile

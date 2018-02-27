@@ -1,20 +1,13 @@
-FROM microsoft/aspnetcore:2.0 AS base
-WORKDIR /app
-EXPOSE 80
-
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM microsoft/aspnetcore-build:2.0 AS builder
 WORKDIR /src
-COPY *.sln ./
-COPY test-app/test-app.csproj test-app/
+COPY *.csproj .
 RUN dotnet restore
 COPY . .
-WORKDIR /src/test-app
-RUN dotnet build -c Release -o /app
+RUN dotnet publish --configuration Release --output /app
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app
-
-FROM base AS final
+FROM microsoft/aspnetcore:2.0
 WORKDIR /app
-COPY --from=publish /app .
+ENV ASPNETCORE_URLS=http://0.0.0.0:5000
+EXPOSE 5000
+COPY --from=builder /app .
 ENTRYPOINT ["dotnet", "test-app.dll"]
