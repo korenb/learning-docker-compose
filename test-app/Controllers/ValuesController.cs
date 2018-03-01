@@ -13,14 +13,14 @@ namespace test_app.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "value1", "value222222222" };
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
-            return "value";
+            return "current date time: " + DateTime.Now;
         }
 
         // POST api/values
